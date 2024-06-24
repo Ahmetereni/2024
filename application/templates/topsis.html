@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOPSIS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <h1>TOPSIS Method</h1>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  
+  <form method="post" enctype="multipart/form-data" action="/topsis">
+    <label for="file">Upload Excel file for TOPSIS:</label>
+    <input type="file" name="file" id="file" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>Sample Image for TOPSIS Method</h2>
+  <div class="navigation-buttons">
+    <button onclick="location.href='/cleaner-excel'">Clean Data Page</button>
+    <button onclick="location.href='/group'">Group Data Page</button>
+    <button onclick="location.href='/generate-weights'">Weights Page</button>
+    <button disabled onclick="location.href='/topsis'">TOPSIS Page</button>
+
+  </div>
+  <p></p>
+  <img src="{{ url_for('static', filename='topsis.png') }}" alt="Sample Image" style="max-width: 90%; height: auto;">
+
+ 
+</body>
+</html>

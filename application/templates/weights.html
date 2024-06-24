@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload File and Generate Weights</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <h1>Generate Weights</h1>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  
+  <form action="/generate-weights-data" method="post" enctype="multipart/form-data">
+    <label for="file">Choose Excel file:</label>
+    <input type="file" id="file" name="file" accept=".xlsx" required><br><br>
+
+    <label for="max_criteria">Max Criteria ex: 1,2,7 means A,B,G</label>
+    <input type="text" id="max_criteria" name="max_criteria" required><br><br>
+
+    <input type="submit" value="Upload and Generate">
+  </form>
+  <h2>Sample Image for Weight data method</h2>
+  <div class="navigation-buttons">
+    <button onclick="location.href='/cleaner-excel'">Clean Data Page</button>
+    <button onclick="location.href='/group'">Group Data Page</button>
+    <button disabled onclick="location.href='/generate-weights'">Weights Page</button>
+    <button onclick="location.href='/topsis'">TOPSIS Page</button>
+  </div>
+  <p></p>
+  <img src="{{ url_for('static', filename='unweighted.png') }}" alt="Sample Image" style="max-width: 90%; height: auto;">
+
+</body>
+</html>

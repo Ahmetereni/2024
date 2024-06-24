@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topsis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .file-input {
+      display: block;
+      margin-bottom: 20px;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .flashes {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .flashes li {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .flashes .success {
+      background-color: #dff0d8;
+      color: #3c763d;
+    }
+
+    .flashes .error {
+      background-color: #f2dede;
+      color: #a94442;
+    }
+
+    .navigation-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .nav-button {
+      margin: 5px;
+      background-color: #008CBA;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .nav-button:hover {
+      background-color: #007bb5;
+    }
+
+    .drop-zone {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      border: 2px dashed #ccc;
+      border-radius: 5px;
+      color: #ccc;
+      margin-bottom: 20px;
+      transition: background-color 0.3s, border-color 0.3s;
+      cursor: pointer;
+    }
+
+    .drop-zone.dragover {
+      background-color: #e9f5e9;
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+
+    .drop-zone input {
+      display: none;
+    }
+
+    .drop-zone span {
+      font-size: 16px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #f9f9f9;
+      border-radius: 5px;
+       cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      display: none;
+    }
+
+    .checkbox-group input[type="checkbox"] + span {
+      display: inline-block;
+      padding: 10px 20px;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked + span {
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>TOPSIS</h1>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  
+  <form action="/process-data" method="post" enctype="multipart/form-data">
+    <div class="drop-zone" id="drop-zone">
+      <span id="drop-zone-text">Drag and drop your Excel file here, or click to select one</span>
+      <input type="file" id="file" name="file" accept=".xlsx" required>
+    </div>
+
+    <label for="max_criteria">Select Max Criteria Columns:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="criteria" value="1"><span>A</span></label>
+      <label><input type="checkbox" name="criteria" value="2"><span>B</span></label>
+      <label><input type="checkbox" name="criteria" value="3"><span>C</span></label>
+      <label><input type="checkbox" name="criteria" value="4"><span>D</span></label>
+      <label><input type="checkbox" name="criteria" value="5"><span>E</span></label>
+      <label><input type="checkbox" name="criteria" value="6"><span>F</span></label>
+      <label><input type="checkbox" name="criteria" value="7"><span>G</span></label>
+      <label><input type="checkbox" name="criteria" value="8"><span>H</span></label>
+      <label><input type="checkbox" name="criteria" value="9"><span>I</span></label>
+      <label><input type="checkbox" name="criteria" value="10"><span>J</span></label>
+      <label><input type="checkbox" name="criteria" value="11"><span>K</span></label>
+      <label><input type="checkbox" name="criteria" value="12"><span>L</span></label>
+      <label><input type="checkbox" name="criteria" value="13"><span>M</span></label>
+      <label><input type="checkbox" name="criteria" value="14"><span>N</span></label>
+      <label><input type="checkbox" name="criteria" value="15"><span>O</span></label>
+      <label><input type="checkbox" name="criteria" value="16"><span>P</span></label>
+      <label><input type="checkbox" name="criteria" value="17"><span>Q</span></label>
+      <label><input type="checkbox" name="criteria" value="18"><span>R</span></label>
+      <label><input type="checkbox" name="criteria" value="19"><span>S</span></label>
+      <label><input type="checkbox" name="criteria" value="20"><span>T</span></label>
+      <label><input type="checkbox" name="criteria" value="21"><span>U</span></label>
+      <label><input type="checkbox" name="criteria" value="22"><span>V</span></label>
+      <label><input type="checkbox" name="criteria" value="23"><span>W</span></label>
+      <label><input type="checkbox" name="criteria" value="24"><span>X</span></label>
+      <label><input type="checkbox" name="criteria" value="25"><span>Y</span></label>
+      <label><input type="checkbox" name="criteria" value="26"><span>Z</span></label>
+      <!-- Add more checkboxes as needed -->
+    </div>
+
+    <input type="hidden" id="max_criteria" name="max_criteria">
+    <input type="submit" value="Upload and Generate">
+  </form>
+
+  <script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file');
+    const dropZoneText = document.getElementById('drop-zone-text');
+    const form = document.querySelector('form');
+    const maxCriteriaInput = document.getElementById('max_criteria');
+
+    dropZone.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        updateDropZoneText();
+      }
+    });
+
+    fileInput.addEventListener('change', updateDropZoneText);
+
+    function updateDropZoneText() {
+      const file = fileInput.files[0];
+      if (file) {
+        dropZoneText.textContent = `${file.name}`;
+      } else {
+        dropZoneText.textContent = 'Drag and drop your Excel file here, or click to select one';
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      const selectedCriteria = [];
+      form.querySelectorAll('input[name="criteria"]:checked').forEach(checkbox => {
+        selectedCriteria.push(checkbox.value);
+      });
+      maxCriteriaInput.value = selectedCriteria.join(',');
+    });
+  </script>
+</body>
+</html>

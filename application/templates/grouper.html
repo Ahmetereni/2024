@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group Data</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <h1>Group Data Upload</h1>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  
+  <form action="/group-data" method="post" enctype="multipart/form-data">
+    <label for="file">Upload Excel file for Grouping:</label>
+    <input type="file" name="file" id="file" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>Sample Image for Group Data Method</h2>
+  <div class="navigation-buttons">
+    <button onclick="location.href='/cleaner-excel'">Clean Data Page</button>
+    <button disabled onclick="location.href='/group'">Group Data Page</button>
+    <button onclick="location.href='/generate-weights'">Weights Page</button>
+    <button onclick="location.href='/topsis'">TOPSIS Page</button>
+  </div>
+  <p></p>
+  <img src="{{ url_for('static', filename='ungrouped.png') }}" alt="Sample Image" style="max-width: 90%; height: auto;">
+</body>
+</html>
